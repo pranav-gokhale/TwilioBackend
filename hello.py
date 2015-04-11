@@ -59,7 +59,8 @@ def hello_monkey():
     '''Interact with user'''
     resp = twilio.twiml.Response()
 
-    with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
+    with resp.gather(numDigits=1, action="/handle-lang", method="POST") as g:
+        resp.pause()
         resp.play(BELL_URL)
         for s in INTRO_URL:
             g.play(s)
