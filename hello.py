@@ -41,12 +41,11 @@ AUDIO = {
  '''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1''',
  '''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
  ]
+}
 
 THANKS_URL = {
         1 : 'https://www.dropbox.com/s/6trf9qmfe2dqkyf/ThanksEnglish.mp3?dl=1',
         4 : 'https://www.dropbox.com/s/9g33rvbsffe68x7/ThanksHindi.mp3?dl=1'
-}
-    
 }
 
 
