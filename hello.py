@@ -48,6 +48,7 @@ def hello_monkey():
 
     '''Save data about user'''
     data_blob = {}
+    data_blob["new_session"] = True
     data_blob["from_number"] = request.values.get('From', None)
     send_data(data_blob)
 
@@ -111,8 +112,5 @@ def send_data(blob):
     result = json.loads(connection.getresponse().read())
     print result
 
-
-
 if __name__ == "__main__":
     app.run(debug=True)
-
