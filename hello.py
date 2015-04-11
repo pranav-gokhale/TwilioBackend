@@ -53,7 +53,6 @@ def hello_monkey():
     data_blob["new_session"] = True
     data_blob["from_number"] = request.values.get('From', None)
     send_data(data_blob, 'Call')
-
     '''Interact with user'''
     resp = twilio.twiml.Response()
     resp.play(BELL_URL)
@@ -118,7 +117,7 @@ def send_data(data, obj):
     import json,httplib
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     connection.connect()
-    connection.request('POST', '/1/classes/'+CallAnalytics, json.dumps(data), {
+    connection.request('POST', '/1/classes/'+obj, json.dumps(data), {
            "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
            "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
            "Content-Type": "application/json"
