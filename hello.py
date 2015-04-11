@@ -6,15 +6,14 @@ app = Flask(__name__)
 BELL_URL = 'https://www.dropbox.com/s/jz0k7w09cleuglk/Bell.mp3?dl=1'
 INTRO_URL = ['https://www.dropbox.com/s/keclu5q8sesy685/Press_1_for_English.mp3?dl=1',
              'https://www.dropbox.com/s/h348n615w6kcknz/Press_2_In_Amharic.mp3?dl=1',
-             'https://www.dropbox.com/s/tqeetjtvl69b2h5/Press_3_For_Bengali.mp3?dl=1']
+             'https://www.dropbox.com/s/tqeetjtvl69b2h5/Press_3_For_Bengali.mp3?dl=1',
+             'https://www.dropbox.com/s/7l9j0ieexvwfkt6/Press4forHindi.mp3?dl=1']
 
-INTRO_TEXT = '''4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu'''
+INTRO_TEXT = '''5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu'''
 
-FURTHER_INFO_TEXT = { 
-'1' :
-'''
-Press 1 for information about Visa, 2 for Slavery information, 3 for Salary information, 4 for Working Conditions, 5 for Losing your job, 6 for Going home, 7 for Rights under law, 8 for Domestic law, 9 for all of the above, 0 for an agent
-'''
+FURTHER_INFO_TEXT_URL = { 
+'1' : 'https://www.dropbox.com/s/s5rkrkosjzwxf9d/EnglishOptions.mp3?dl=1',
+'4' : 'https://www.dropbox.com/s/dql9uif9dyfp3vh/HindiOptions.mp3?dl=1'
 }
 
 AUDIO = {
@@ -42,6 +41,11 @@ AUDIO = {
  '''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1''',
  '''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
  ]
+
+THANKS_URL = {
+        1 : 'https://www.dropbox.com/s/6trf9qmfe2dqkyf/ThanksEnglish.mp3?dl=1',
+        4 : 'https://www.dropbox.com/s/9g33rvbsffe68x7/ThanksHindi.mp3?dl=1'
+}
     
 }
 
@@ -78,8 +82,8 @@ def handle_lang():
     resp = twilio.twiml.Response()
     if int(digit_pressed) <= 12: 
         with resp.gather(numDigits=1, action="/handle-further-info/"+digit_pressed, method="POST") as g:
-            g.say(FURTHER_INFO_TEXT[digit_pressed])
-        print FURTHER_INFO_TEXT[digit_pressed]
+            g.play(FURTHER_INFO_TEXT_URL[digit_pressed])
+        print FURTHER_INFO_TEXT_URL[digit_pressed]
         return str(resp)
     else :
         return redirect("/")
@@ -99,6 +103,7 @@ def handle_further_info(lang_id):
         resp.play(AUDIO[lang_id][int(digit_pressed)])
     resp.play(AUDIO[lang_id][int(9)])
     resp.play(AUDIO[lang_id][int(0)])
+    resp.play(THANKS_URL[lang_id])
     return str(resp)
 
 @app.route("/status", methods=['GET', 'POST'])
