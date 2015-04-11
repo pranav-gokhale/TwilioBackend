@@ -20,7 +20,6 @@ Press 1 for information about Visa, 2 for Slavery information, 3 for Salary info
 }
 
 AUDIO = {
-
     '''1-Intro-Hindi''' : '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1'''
     , '''2-Visa-Hindi''' :  '''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1'''
     , '''3-Slavery-Hindi''' :   '''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1'''
@@ -46,15 +45,11 @@ AUDIO = {
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
-
-    '''debugging'''
-    print request
-
     '''Save data about user'''
     data_blob = {}
     data_blob["new_session"] = True
     data_blob["from_number"] = request.values.get('From', None)
-    send_data(data_blob)
+    send_data(data_blob, call)
 
     '''Interact with user'''
     resp = twilio.twiml.Response()
@@ -67,37 +62,22 @@ def hello_monkey():
             g.play(s)
         g.say(INTRO_TEXT)
 
-    # Play an MP3
- #    resp.play(AUDIO['1-Intro-English'])
- 
     return str(resp)
 
 @app.route("/handle-lang", methods=['GET', 'POST'])
-def handle_lang():
-    """Handle key press from a user."""
-
-    print request
- 
+def handle_lang(): 
     digit_pressed = request.values.get('Digits', None)
-
     '''Save data about user'''
     data_blob = {}
     data_blob["from_number"] = request.values.get('From', None)
     data_blob["digit_pressed"] = digit_pressed
-    send_data(data_blob)
-
-
+    send_data(data_blob, 'Call')
     # Get the digit pressed by the user
-
     resp = twilio.twiml.Response()
     with resp.gather(numDigits=1, action="/handle-further-info", method="POST") as g:
         g.say(FURTHER_INFO_TEXT[digit_pressed])
     print FURTHER_INFO_TEXT[digit_pressed]
     return str(resp)
- 
-    # # If the caller pressed anything but 1, redirect them to the homepage.
-    # else:
-    #     return redirect("/")
 
 @app.route("/handle-further-info", methods=['GET', 'POST'])
 def handle_further_info(): 
@@ -111,20 +91,19 @@ def handle_further_info():
 def status(): 
     '''Save data about user'''
     data_blob = {}
-    data_blob['status_info'] = {
-        'CallDuration' : request.values.get('CallDuration', None),
-        'RecordingUrl' : request.values.get('RecordingUrl', None),
-        'RecordingSid' : request.values.get('RecordingSid', None) ,
-        'RecordingDuration' : request.values.get('RecordingDuration', None)
-    }
-    send_data(data_blob)
+    data_blob['CallDuration'] = request.values.get('CallDuration', None)
+    data_blob['RecordingUrl'] = request.values.get('RecordingUrl', None)
+    data_blob['RecordingSid'] = request.values.get('RecordingSid', None)
+    data_blob['RecordingDuration'] = request.values.get('RecordingDuration', None)
+    send_data(data_blob, 'Call_Status')
     return None
 
-def send_data(blob):
+'''Send data to parse'''
+def send_data(data, obj):
     import json,httplib
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     connection.connect()
-    connection.request('POST', '/1/classes/CallAnalytics', json.dumps(blob), {
+    connection.request('POST', '/1/classes/'+CallAnalytics, json.dumps(data), {
            "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
            "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
            "Content-Type": "application/json"
