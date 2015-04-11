@@ -97,7 +97,7 @@ def handle_further_info():
     digit_pressed = request.values.get('Digits', None)
     resp = twilio.twiml.Response()
     resp.play(AUDIO['''1-Intro-Hindi'''])
-    return redirect("/")
+    return str(resp)
 
 def send_data(blob):
     import json,httplib
