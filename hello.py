@@ -52,7 +52,7 @@ def hello_monkey():
     data_blob = {}
     data_blob["new_session"] = True
     data_blob["from_number"] = request.values.get('From', None)
-    send_data(data_blob, call)
+    send_data(data_blob, 'Call')
 
     '''Interact with user'''
     resp = twilio.twiml.Response()
