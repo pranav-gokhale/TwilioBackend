@@ -4,7 +4,9 @@ import twilio.twiml
 app = Flask(__name__)
  
 BELL_URL = '''https://www.dropbox.com/s/d942z6edvfesorw/Desk_bell_sound.mp3?dl=1'''
-INTRO_URL = ['https://www.dropbox.com/s/h348n615w6kcknz/Press_2_In_Amharic.mp3?dl=1']
+INTRO_URL = ['https://www.dropbox.com/s/keclu5q8sesy685/Press_1_for_English.mp3?dl=1',
+             'https://www.dropbox.com/s/h348n615w6kcknz/Press_2_In_Amharic.mp3?dl=1',
+             'https://www.dropbox.com/s/tqeetjtvl69b2h5/Press_3_For_Bengali.mp3?dl=1']
 
 INTRO_TEXT = '''
 Press 1 for English, 2 for Amharic, 3 for Bengali, 4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu
@@ -61,8 +63,9 @@ def hello_monkey():
     # Say a command, and listen for the caller to press a key. When they press
     # a key, redirect them to /handle-key.
     with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
-#        g.say(INTRO_TEXT)
-        g.play(INTRO_URL[0])
+        for s in INTRO_URL:
+            g.play(s)
+        g.say(INTRO_TEXT)
 
     # Play an MP3
  #    resp.play(AUDIO['1-Intro-English'])
