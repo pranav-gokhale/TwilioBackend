@@ -7,6 +7,30 @@ INTRO_TEXT = '''
 Press 1 for English, 2 for Amharic, 3 for Bengali, 4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu
 '''
 
+AUDIO = {
+	'''1-Intro-Hindi'''	: '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1'''
+	, '''2-Visa-Hindi''' : 	'''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1'''
+	, '''3-Slavery-Hindi''' : 	'''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1'''
+	, '''4-Salary-Hindi''' : 	'''https://www.dropbox.com/s/bm9nobauq1n5pbk/4-Salary-Hindi.mp3?dl=1'''
+	, '''5-WorkingConditions-Hindi''' : 	'''https://www.dropbox.com/s/hzbkxxb80eukdz2/5-WorkingConditions-Hindi.mp3?dl=1'''
+	, '''6-LosingYourJob-Hindi''' : 	'''https://www.dropbox.com/s/xa127eu437gq8z3/6-LosingYourJob-Hindi.mp3?dl=1'''
+	, '''7-GoingHome-Hindi''' : 	'''https://www.dropbox.com/s/esotjrd7gbxi3xg/7-GoingHome-Hindi.mp3?dl=1'''
+	, '''8-RightsUnderLaw-Hindi''' : 	'''https://www.dropbox.com/s/e8ht5ifgoc8cft3/8-RightsUnderLaw-Hindi.mp3?dl=1'''
+	, '''9-Domestic-Hindi''' : 	'''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1'''
+	, '''10-Contact-Hindi''' : 	'''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
+	, '''1-Intro-English''' : 	'''https://www.dropbox.com/s/xxqui8c0vosdt6r/1-Intro-English.mp3?dl=1'''
+	, '''2-Visa-English''' : 	'''https://www.dropbox.com/s/bcxtt9zwp02a3yf/2-Visa-English.mp3?dl=1'''
+	, '''3-Slavery-English''' : 	'''https://www.dropbox.com/s/3i4zzrfhfr2ylb6/3-Slavery-English.mp3?dl=1'''
+	, '''4-Salary-English''' : 	'''https://www.dropbox.com/s/cvxuf2s9y6iqxko/4-Salary-English.mp3?dl=1'''
+	, '''5-WorkingConditions-English''' : 	'''https://www.dropbox.com/s/na0h40u1p93btrn/5-WorkingConditions-English.mp3?dl=1'''
+	, '''6-LosingYourJob-English''' : 	'''https://www.dropbox.com/s/rnvydahvggtmpy2/6-LosingYourJob-English.mp3?dl=1'''
+	, '''7-GoingHome-English''' : 	'''https://www.dropbox.com/s/mn1g54b9fdv966a/7-GoingHome-English.mp3?dl=1'''
+	, '''8-RightsUnderLaw-English''' : 	'''https://www.dropbox.com/s/s5gd5yiqj4razt5/8-RightsUnderLaw-English.mp3?dl=1'''
+	, '''9-Domestic-English''' : 	'''https://www.dropbox.com/s/id3x4dx7jyz5ecq/9-Domestic-English.mp3?dl=1'''
+	, '''10-Contact-English''' : 	'''https://www.dropbox.com/s/ldt0h0xebcx8sen/10-Contact-English.mp3?dl=1'''
+}
+
+
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 
@@ -21,6 +45,9 @@ def hello_monkey():
 	'''Interact with user'''
     resp = twilio.twiml.Response()
     resp.say(INTRO_TEXT)
+
+    # Play an MP3
+    resp.play(AUDIO['1-Intro-English'])
  
     return str(resp)
  
