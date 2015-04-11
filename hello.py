@@ -7,7 +7,15 @@ INTRO_TEXT = '''
 Press 1 for English, 2 for Amharic, 3 for Bengali, 4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu
 '''
 
+FURTHER_INFO_TEXT = { 
+'1' :
+'''
+Press 1 for information about Visa, 2 for Slavery information, 3 for Salary information, 4 for Working Conditions, 5 for Losing your job, 6 for Going home, 7 for Rights under law, 8 for Domestic law, 9 for Contact information
+'''
+}
+
 AUDIO = {
+
 	'''1-Intro-Hindi'''	: '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1'''
 	, '''2-Visa-Hindi''' : 	'''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1'''
 	, '''3-Slavery-Hindi''' : 	'''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1'''
@@ -44,13 +52,52 @@ def hello_monkey():
 
 	'''Interact with user'''
     resp = twilio.twiml.Response()
-    resp.say(INTRO_TEXT)
+
+    # Say a command, and listen for the caller to press a key. When they press
+    # a key, redirect them to /handle-key.
+    with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
+        g.say(INTRO_TEXT)
 
     # Play an MP3
-    resp.play(AUDIO['1-Intro-English'])
+ #    resp.play(AUDIO['1-Intro-English'])
  
     return str(resp)
+
+@app.route("/handle-lang", methods=['GET', 'POST'])
+def handle_lang():
+    """Handle key press from a user."""
+
+    print request
  
+    digit_pressed = request.values.get('Digits', None)
+
+	'''Save data about user'''
+	data_blob = {}
+	data_blob["from_number"] = request.values.get('From', None)
+	data_blob["digit_pressed"] = digit_pressed
+	send_data(data_blob)
+
+
+    # Get the digit pressed by the user
+
+    resp = twilio.twiml.Response()
+    with resp.gather(numDigits=1, action="/handle-further-info", method="POST") as g:
+        g.say(FURTHER_INFO_TEXT[digit_pressed])
+	print FURTHER_INFO_TEXT[digit_pressed]
+    return str(resp)
+ 
+    # # If the caller pressed anything but 1, redirect them to the homepage.
+    # else:
+    #     return redirect("/")
+
+@app.route("/handle-further-info", methods=['GET', 'POST'])
+def handle_further_info(): 
+	print request
+	digit_pressed = request.values.get('Digits', None)
+    resp = twilio.twiml.Response()
+	resp.play(AUDIO['''1-Intro-Hindi'''])
+	return redirect("/")
+
 def send_data(blob):
 	import json,httplib
 	connection = httplib.HTTPSConnection('api.parse.com', 443)
