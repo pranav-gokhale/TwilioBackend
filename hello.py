@@ -113,7 +113,7 @@ def status():
         'CallDuration' : request.values.get('CallDuration', None),
         'RecordingUrl' : request.values.get('RecordingUrl', None),
         'RecordingSid' : request.values.get('RecordingSid', None) ,
-        'RecordingDuration' : request.values.get('RecordingDuration', None):
+        'RecordingDuration' : request.values.get('RecordingDuration', None)
     }
     send_data(data_blob)
     return None
