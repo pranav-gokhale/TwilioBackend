@@ -94,7 +94,7 @@ def handle_further_info(lang_id):
         return str(resp)
     elif (int(digit_pressed)==9):
         for i in range(1, 9):
-            resp.play(AUDIO[lang_id][int(digit_pressed)])
+            resp.play(AUDIO[lang_id][i])
     else:
         resp.play(AUDIO[lang_id][int(digit_pressed)])
     resp.play(AUDIO[lang_id][int(9)])
