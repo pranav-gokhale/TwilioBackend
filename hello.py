@@ -8,9 +8,7 @@ INTRO_URL = ['https://www.dropbox.com/s/keclu5q8sesy685/Press_1_for_English.mp3?
              'https://www.dropbox.com/s/h348n615w6kcknz/Press_2_In_Amharic.mp3?dl=1',
              'https://www.dropbox.com/s/tqeetjtvl69b2h5/Press_3_For_Bengali.mp3?dl=1']
 
-INTRO_TEXT = '''
-, 4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu
-'''
+INTRO_TEXT = '''4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu'''
 
 FURTHER_INFO_TEXT = { 
 '1' :
@@ -47,9 +45,6 @@ AUDIO = {
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 
-    '''debugging'''
-    print request
-
     '''Save data about user'''
     data_blob = {}
     data_blob["new_session"] = True
@@ -60,22 +55,16 @@ def hello_monkey():
     resp = twilio.twiml.Response()
     resp.play(BELL_URL)
 
-    # Say a command, and listen for the caller to press a key. When they press
-    # a key, redirect them to /handle-key.
     with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
         for s in INTRO_URL:
             g.play(s)
         g.say(INTRO_TEXT)
-
-    # Play an MP3
- #    resp.play(AUDIO['1-Intro-English'])
  
     return str(resp)
 
 @app.route("/handle-lang", methods=['GET', 'POST'])
 def handle_lang():
     """Handle key press from a user."""
-
     print request
  
     digit_pressed = request.values.get('Digits', None)
@@ -86,9 +75,7 @@ def handle_lang():
     data_blob["digit_pressed"] = digit_pressed
     send_data(data_blob)
 
-
     # Get the digit pressed by the user
-
     resp = twilio.twiml.Response()
     with resp.gather(numDigits=1, action="/handle-further-info", method="POST") as g:
         g.say(FURTHER_INFO_TEXT[digit_pressed])
