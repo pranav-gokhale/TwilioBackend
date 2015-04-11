@@ -15,31 +15,36 @@ INTRO_TEXT = '''
 FURTHER_INFO_TEXT = { 
 '1' :
 '''
-Press 1 for information about Visa, 2 for Slavery information, 3 for Salary information, 4 for Working Conditions, 5 for Losing your job, 6 for Going home, 7 for Rights under law, 8 for Domestic law, 9 for Contact information
+Press 1 for information about Visa, 2 for Slavery information, 3 for Salary information, 4 for Working Conditions, 5 for Losing your job, 6 for Going home, 7 for Rights under law, 8 for Domestic law, 9 for all of the above, 0 for an agent
 '''
 }
 
 AUDIO = {
-    '''1-Intro-Hindi''' : '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1'''
-    , '''2-Visa-Hindi''' :  '''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1'''
-    , '''3-Slavery-Hindi''' :   '''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1'''
-    , '''4-Salary-Hindi''' :    '''https://www.dropbox.com/s/bm9nobauq1n5pbk/4-Salary-Hindi.mp3?dl=1'''
-    , '''5-WorkingConditions-Hindi''' :     '''https://www.dropbox.com/s/hzbkxxb80eukdz2/5-WorkingConditions-Hindi.mp3?dl=1'''
-    , '''6-LosingYourJob-Hindi''' :     '''https://www.dropbox.com/s/xa127eu437gq8z3/6-LosingYourJob-Hindi.mp3?dl=1'''
-    , '''7-GoingHome-Hindi''' :     '''https://www.dropbox.com/s/esotjrd7gbxi3xg/7-GoingHome-Hindi.mp3?dl=1'''
-    , '''8-RightsUnderLaw-Hindi''' :    '''https://www.dropbox.com/s/e8ht5ifgoc8cft3/8-RightsUnderLaw-Hindi.mp3?dl=1'''
-    , '''9-Domestic-Hindi''' :  '''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1'''
-    , '''10-Contact-Hindi''' :  '''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
-    , '''1-Intro-English''' :   '''https://www.dropbox.com/s/xxqui8c0vosdt6r/1-Intro-English.mp3?dl=1'''
-    , '''2-Visa-English''' :    '''https://www.dropbox.com/s/bcxtt9zwp02a3yf/2-Visa-English.mp3?dl=1'''
-    , '''3-Slavery-English''' :     '''https://www.dropbox.com/s/3i4zzrfhfr2ylb6/3-Slavery-English.mp3?dl=1'''
-    , '''4-Salary-English''' :  '''https://www.dropbox.com/s/cvxuf2s9y6iqxko/4-Salary-English.mp3?dl=1'''
-    , '''5-WorkingConditions-English''' :   '''https://www.dropbox.com/s/na0h40u1p93btrn/5-WorkingConditions-English.mp3?dl=1'''
-    , '''6-LosingYourJob-English''' :   '''https://www.dropbox.com/s/rnvydahvggtmpy2/6-LosingYourJob-English.mp3?dl=1'''
-    , '''7-GoingHome-English''' :   '''https://www.dropbox.com/s/mn1g54b9fdv966a/7-GoingHome-English.mp3?dl=1'''
-    , '''8-RightsUnderLaw-English''' :  '''https://www.dropbox.com/s/s5gd5yiqj4razt5/8-RightsUnderLaw-English.mp3?dl=1'''
-    , '''9-Domestic-English''' :    '''https://www.dropbox.com/s/id3x4dx7jyz5ecq/9-Domestic-English.mp3?dl=1'''
-    , '''10-Contact-English''' :    '''https://www.dropbox.com/s/ldt0h0xebcx8sen/10-Contact-English.mp3?dl=1'''
+    1: [
+ '''https://www.dropbox.com/s/xxqui8c0vosdt6r/1-Intro-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/bcxtt9zwp02a3yf/2-Visa-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/3i4zzrfhfr2ylb6/3-Slavery-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/cvxuf2s9y6iqxko/4-Salary-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/na0h40u1p93btrn/5-WorkingConditions-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/rnvydahvggtmpy2/6-LosingYourJob-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/mn1g54b9fdv966a/7-GoingHome-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/s5gd5yiqj4razt5/8-RightsUnderLaw-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/id3x4dx7jyz5ecq/9-Domestic-English.mp3?dl=1''',
+ '''https://www.dropbox.com/s/ldt0h0xebcx8sen/10-Contact-English.mp3?dl=1''',
+    ],
+    4: [
+ '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/bm9nobauq1n5pbk/4-Salary-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/hzbkxxb80eukdz2/5-WorkingConditions-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/xa127eu437gq8z3/6-LosingYourJob-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/esotjrd7gbxi3xg/7-GoingHome-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/e8ht5ifgoc8cft3/8-RightsUnderLaw-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1''',
+ '''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
+ ]
+    
 }
 
 
@@ -74,17 +79,29 @@ def handle_lang():
     send_data(data_blob, 'Call')
     # Get the digit pressed by the user
     resp = twilio.twiml.Response()
-    with resp.gather(numDigits=1, action="/handle-further-info", method="POST") as g:
-        g.say(FURTHER_INFO_TEXT[digit_pressed])
-    print FURTHER_INFO_TEXT[digit_pressed]
-    return str(resp)
+    if int(digit_pressed) <= 12: 
+        with resp.gather(numDigits=1, action="/handle-further-info/"+digit_pressed, method="POST") as g:
+            g.say(FURTHER_INFO_TEXT[digit_pressed])
+        print FURTHER_INFO_TEXT[digit_pressed]
+        return str(resp)
+    else :
+        return redirect("/")
 
-@app.route("/handle-further-info", methods=['GET', 'POST'])
-def handle_further_info(): 
+@app.route("/handle-further-info/<int:lang_id>", methods=['GET', 'POST'])
+def handle_further_info(lang_id): 
     print request
     digit_pressed = request.values.get('Digits', None)
     resp = twilio.twiml.Response()
-    resp.play(AUDIO['''1-Intro-Hindi'''])
+    if (int(digit_pressed)==0):
+        resp.say('Volunteer')
+        return str(resp)
+    elif (int(digit_pressed)==9):
+        for i in range(1, 9):
+            resp.play(AUDIO[lang_id][int(digit_pressed)])
+    else:
+        resp.play(AUDIO[lang_id][int(digit_pressed)])
+    resp.play(AUDIO[lang_id][int(9)])
+    resp.play(AUDIO[lang_id][int(0)])
     return str(resp)
 
 @app.route("/status", methods=['GET', 'POST'])
