@@ -59,9 +59,9 @@ def hello_monkey():
     send_data(data_blob, 'Call')
     '''Interact with user'''
     resp = twilio.twiml.Response()
-    resp.play(BELL_URL)
 
     with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
+        resp.play(BELL_URL)
         for s in INTRO_URL:
             g.play(s)
         g.say(INTRO_TEXT) 
