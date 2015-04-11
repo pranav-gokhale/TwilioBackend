@@ -1,11 +1,9 @@
 from flask import Flask, request, redirect
 import twilio.twiml
 
+
 app = Flask(__name__)
  
-BELL_URL = '''https://www.dropbox.com/s/789jx5zyq99iije/Desk-bell-sound.wav?dl=1'''
-INTRO_URL = ['https://www.dropbox.com/s/evsgkatqwgc1m6y/Press_2_In_Amharic.mp4?dl=0']
-
 INTRO_TEXT = '''
 Press 1 for English, 2 for Amharic, 3 for Bengali, 4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu
 '''
@@ -60,8 +58,7 @@ def hello_monkey():
     # Say a command, and listen for the caller to press a key. When they press
     # a key, redirect them to /handle-key.
     with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
-#        g.say(INTRO_TEXT)
-        g.say(INTRO_URL)
+        g.say(INTRO_TEXT)
 
     # Play an MP3
  #    resp.play(AUDIO['1-Intro-English'])
@@ -103,19 +100,6 @@ def handle_further_info():
     resp.play(AUDIO['''1-Intro-Hindi'''])
     return str(resp)
 
-@app.route("/status", methods=['GET', 'POST'])
-def status(): 
-    '''Save data about user'''
-    data_blob = {}
-    data_blob['status_info'] = {
-        'CallDuration' : request.values.get('CallDuration', None),
-        'RecordingUrl' : request.values.get('RecordingUrl', None),
-        'RecordingSid' : request.values.get('RecordingSid', None) ,
-        'RecordingDuration' : request.values.get('RecordingDuration', None):
-    }
-    send_data(data_blob)
-    return None
-
 def send_data(blob):
     import json,httplib
     connection = httplib.HTTPSConnection('api.parse.com', 443)
@@ -127,9 +111,6 @@ def send_data(blob):
          })
     result = json.loads(connection.getresponse().read())
     print result
-
-def send_analytics(blob):
-    pass
 
 if __name__ == "__main__":
     app.run(debug=True)
