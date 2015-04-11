@@ -105,6 +105,19 @@ def handle_further_info():
     resp.play(AUDIO['''1-Intro-Hindi'''])
     return str(resp)
 
+@app.route("/status", methods=['GET', 'POST'])
+def status(): 
+    '''Save data about user'''
+    data_blob = {}
+    data_blob['status_info'] = {
+        'CallDuration' : request.values.get('CallDuration', None),
+        'RecordingUrl' : request.values.get('RecordingUrl', None),
+        'RecordingSid' : request.values.get('RecordingSid', None) ,
+        'RecordingDuration' : request.values.get('RecordingDuration', None):
+    }
+    send_data(data_blob)
+    return None
+
 def send_data(blob):
     import json,httplib
     connection = httplib.HTTPSConnection('api.parse.com', 443)
@@ -116,6 +129,9 @@ def send_data(blob):
          })
     result = json.loads(connection.getresponse().read())
     print result
+
+def send_analytics(blob):
+    pass
 
 if __name__ == "__main__":
     app.run(debug=True)
