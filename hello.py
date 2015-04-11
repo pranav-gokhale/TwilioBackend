@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, request, redirect
 import twilio.twiml
- 
+
+
 app = Flask(__name__)
  
 INTRO_TEXT = '''
@@ -16,41 +17,41 @@ Press 1 for information about Visa, 2 for Slavery information, 3 for Salary info
 
 AUDIO = {
 
-	'''1-Intro-Hindi'''	: '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1'''
-	, '''2-Visa-Hindi''' : 	'''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1'''
-	, '''3-Slavery-Hindi''' : 	'''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1'''
-	, '''4-Salary-Hindi''' : 	'''https://www.dropbox.com/s/bm9nobauq1n5pbk/4-Salary-Hindi.mp3?dl=1'''
-	, '''5-WorkingConditions-Hindi''' : 	'''https://www.dropbox.com/s/hzbkxxb80eukdz2/5-WorkingConditions-Hindi.mp3?dl=1'''
-	, '''6-LosingYourJob-Hindi''' : 	'''https://www.dropbox.com/s/xa127eu437gq8z3/6-LosingYourJob-Hindi.mp3?dl=1'''
-	, '''7-GoingHome-Hindi''' : 	'''https://www.dropbox.com/s/esotjrd7gbxi3xg/7-GoingHome-Hindi.mp3?dl=1'''
-	, '''8-RightsUnderLaw-Hindi''' : 	'''https://www.dropbox.com/s/e8ht5ifgoc8cft3/8-RightsUnderLaw-Hindi.mp3?dl=1'''
-	, '''9-Domestic-Hindi''' : 	'''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1'''
-	, '''10-Contact-Hindi''' : 	'''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
-	, '''1-Intro-English''' : 	'''https://www.dropbox.com/s/xxqui8c0vosdt6r/1-Intro-English.mp3?dl=1'''
-	, '''2-Visa-English''' : 	'''https://www.dropbox.com/s/bcxtt9zwp02a3yf/2-Visa-English.mp3?dl=1'''
-	, '''3-Slavery-English''' : 	'''https://www.dropbox.com/s/3i4zzrfhfr2ylb6/3-Slavery-English.mp3?dl=1'''
-	, '''4-Salary-English''' : 	'''https://www.dropbox.com/s/cvxuf2s9y6iqxko/4-Salary-English.mp3?dl=1'''
-	, '''5-WorkingConditions-English''' : 	'''https://www.dropbox.com/s/na0h40u1p93btrn/5-WorkingConditions-English.mp3?dl=1'''
-	, '''6-LosingYourJob-English''' : 	'''https://www.dropbox.com/s/rnvydahvggtmpy2/6-LosingYourJob-English.mp3?dl=1'''
-	, '''7-GoingHome-English''' : 	'''https://www.dropbox.com/s/mn1g54b9fdv966a/7-GoingHome-English.mp3?dl=1'''
-	, '''8-RightsUnderLaw-English''' : 	'''https://www.dropbox.com/s/s5gd5yiqj4razt5/8-RightsUnderLaw-English.mp3?dl=1'''
-	, '''9-Domestic-English''' : 	'''https://www.dropbox.com/s/id3x4dx7jyz5ecq/9-Domestic-English.mp3?dl=1'''
-	, '''10-Contact-English''' : 	'''https://www.dropbox.com/s/ldt0h0xebcx8sen/10-Contact-English.mp3?dl=1'''
+    '''1-Intro-Hindi''' : '''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1'''
+    , '''2-Visa-Hindi''' :  '''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1'''
+    , '''3-Slavery-Hindi''' :   '''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1'''
+    , '''4-Salary-Hindi''' :    '''https://www.dropbox.com/s/bm9nobauq1n5pbk/4-Salary-Hindi.mp3?dl=1'''
+    , '''5-WorkingConditions-Hindi''' :     '''https://www.dropbox.com/s/hzbkxxb80eukdz2/5-WorkingConditions-Hindi.mp3?dl=1'''
+    , '''6-LosingYourJob-Hindi''' :     '''https://www.dropbox.com/s/xa127eu437gq8z3/6-LosingYourJob-Hindi.mp3?dl=1'''
+    , '''7-GoingHome-Hindi''' :     '''https://www.dropbox.com/s/esotjrd7gbxi3xg/7-GoingHome-Hindi.mp3?dl=1'''
+    , '''8-RightsUnderLaw-Hindi''' :    '''https://www.dropbox.com/s/e8ht5ifgoc8cft3/8-RightsUnderLaw-Hindi.mp3?dl=1'''
+    , '''9-Domestic-Hindi''' :  '''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1'''
+    , '''10-Contact-Hindi''' :  '''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
+    , '''1-Intro-English''' :   '''https://www.dropbox.com/s/xxqui8c0vosdt6r/1-Intro-English.mp3?dl=1'''
+    , '''2-Visa-English''' :    '''https://www.dropbox.com/s/bcxtt9zwp02a3yf/2-Visa-English.mp3?dl=1'''
+    , '''3-Slavery-English''' :     '''https://www.dropbox.com/s/3i4zzrfhfr2ylb6/3-Slavery-English.mp3?dl=1'''
+    , '''4-Salary-English''' :  '''https://www.dropbox.com/s/cvxuf2s9y6iqxko/4-Salary-English.mp3?dl=1'''
+    , '''5-WorkingConditions-English''' :   '''https://www.dropbox.com/s/na0h40u1p93btrn/5-WorkingConditions-English.mp3?dl=1'''
+    , '''6-LosingYourJob-English''' :   '''https://www.dropbox.com/s/rnvydahvggtmpy2/6-LosingYourJob-English.mp3?dl=1'''
+    , '''7-GoingHome-English''' :   '''https://www.dropbox.com/s/mn1g54b9fdv966a/7-GoingHome-English.mp3?dl=1'''
+    , '''8-RightsUnderLaw-English''' :  '''https://www.dropbox.com/s/s5gd5yiqj4razt5/8-RightsUnderLaw-English.mp3?dl=1'''
+    , '''9-Domestic-English''' :    '''https://www.dropbox.com/s/id3x4dx7jyz5ecq/9-Domestic-English.mp3?dl=1'''
+    , '''10-Contact-English''' :    '''https://www.dropbox.com/s/ldt0h0xebcx8sen/10-Contact-English.mp3?dl=1'''
 }
 
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 
-	'''debugging'''
-	print request
+    '''debugging'''
+    print request
 
-	'''Save data about user'''
-	data_blob = {}
-	data_blob["from_number"] = request.values.get('From', None)
-	send_data(data_blob)
+    '''Save data about user'''
+    data_blob = {}
+    data_blob["from_number"] = request.values.get('From', None)
+    send_data(data_blob)
 
-	'''Interact with user'''
+    '''Interact with user'''
     resp = twilio.twiml.Response()
 
     # Say a command, and listen for the caller to press a key. When they press
@@ -71,11 +72,11 @@ def handle_lang():
  
     digit_pressed = request.values.get('Digits', None)
 
-	'''Save data about user'''
-	data_blob = {}
-	data_blob["from_number"] = request.values.get('From', None)
-	data_blob["digit_pressed"] = digit_pressed
-	send_data(data_blob)
+    '''Save data about user'''
+    data_blob = {}
+    data_blob["from_number"] = request.values.get('From', None)
+    data_blob["digit_pressed"] = digit_pressed
+    send_data(data_blob)
 
 
     # Get the digit pressed by the user
@@ -83,7 +84,7 @@ def handle_lang():
     resp = twilio.twiml.Response()
     with resp.gather(numDigits=1, action="/handle-further-info", method="POST") as g:
         g.say(FURTHER_INFO_TEXT[digit_pressed])
-	print FURTHER_INFO_TEXT[digit_pressed]
+    print FURTHER_INFO_TEXT[digit_pressed]
     return str(resp)
  
     # # If the caller pressed anything but 1, redirect them to the homepage.
@@ -92,23 +93,23 @@ def handle_lang():
 
 @app.route("/handle-further-info", methods=['GET', 'POST'])
 def handle_further_info(): 
-	print request
-	digit_pressed = request.values.get('Digits', None)
+    print request
+    digit_pressed = request.values.get('Digits', None)
     resp = twilio.twiml.Response()
-	resp.play(AUDIO['''1-Intro-Hindi'''])
-	return redirect("/")
+    resp.play(AUDIO['''1-Intro-Hindi'''])
+    return redirect("/")
 
 def send_data(blob):
-	import json,httplib
-	connection = httplib.HTTPSConnection('api.parse.com', 443)
-	connection.connect()
-	connection.request('POST', '/1/classes/GameScore', json.dumps(blob), {
-	       "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
-	       "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
-	       "Content-Type": "application/json"
-	     })
-	result = json.loads(connection.getresponse().read())
-	print result
+    import json,httplib
+    connection = httplib.HTTPSConnection('api.parse.com', 443)
+    connection.connect()
+    connection.request('POST', '/1/classes/GameScore', json.dumps(blob), {
+           "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
+           "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
+           "Content-Type": "application/json"
+         })
+    result = json.loads(connection.getresponse().read())
+    print result
 
 
 
