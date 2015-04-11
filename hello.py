@@ -57,7 +57,7 @@ def hello_monkey():
     '''Interact with user'''
     resp = twilio.twiml.Response()
 
-    g.say(BELL_URL)
+    resp.say(BELL_URL)
 
     # Say a command, and listen for the caller to press a key. When they press
     # a key, redirect them to /handle-key.
