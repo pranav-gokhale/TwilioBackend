@@ -56,14 +56,13 @@ def hello_monkey():
 
     '''Interact with user'''
     resp = twilio.twiml.Response()
-
     resp.say(BELL_URL)
 
     # Say a command, and listen for the caller to press a key. When they press
     # a key, redirect them to /handle-key.
     with resp.gather(numDigits=2, action="/handle-lang", method="POST") as g:
 #        g.say(INTRO_TEXT)
-        g.say(INTRO_URL)
+        g.say(INTRO_URL[0])
 
     # Play an MP3
  #    resp.play(AUDIO['1-Intro-English'])
