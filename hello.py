@@ -3,8 +3,8 @@ import twilio.twiml
 
 app = Flask(__name__)
  
-BELL_URL = '''https://www.dropbox.com/s/789jx5zyq99iije/Desk-bell-sound.wav?dl=1'''
-INTRO_URL = ['https://www.dropbox.com/s/evsgkatqwgc1m6y/Press_2_In_Amharic.mp4?dl=1']
+BELL_URL = '''https://www.dropbox.com/s/d942z6edvfesorw/Desk_bell_sound.mp3?dl=1'''
+INTRO_URL = ['https://www.dropbox.com/s/h348n615w6kcknz/Press_2_In_Amharic.mp3?dl=1']
 
 INTRO_TEXT = '''
 Press 1 for English, 2 for Amharic, 3 for Bengali, 4 for Hindi, 5 for Indonesian, 6 for Malayalam, 7 for Mandarin, 8 for Nepali, 9 for Sinhalese, 10 for Tagalog, 11 for Tamil, 12 for Telugu
