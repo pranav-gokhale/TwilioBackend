@@ -103,7 +103,7 @@ def send_data(blob):
     import json,httplib
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     connection.connect()
-    connection.request('POST', '/1/classes/GameScore', json.dumps(blob), {
+    connection.request('POST', '/1/classes/CallAnalytics', json.dumps(blob), {
            "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
            "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
            "Content-Type": "application/json"
