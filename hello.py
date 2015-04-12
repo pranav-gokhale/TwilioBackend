@@ -145,7 +145,7 @@ def status():
     data_blob['From'] = request.values.get('From', None)
     data_blob['Language'] = LANGUAGEID_TO_LANGUAGE[int(fetch_language(request.values.get('From', None)))]
     data_blob['Category'] = CATEGORYID_TO_CATEGORY[int(fetch_category(request.values.get('From', None)))]
-    data_blob['TimeStamp'] = int(time.time())
+    data_blob['Timestamp'] = int(time.time())
 
     send_analytics(data_blob)
     send_data(data_blob, 'Call_Status')
