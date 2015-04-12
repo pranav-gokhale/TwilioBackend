@@ -1,4 +1,4 @@
-import json,httplib,urllib
+'''
 
 def fetch_language(phone_string):
 	connection = httplib.HTTPSConnection('api.parse.com', 443)
@@ -13,3 +13,15 @@ def fetch_language(phone_string):
 			return r.get(u'lang_id',False)
 
 print fetch_language('+971507902840')
+'''
+import json,httplib,urllib
+
+def send_analytics(data):
+    import json,httplib
+    connection = httplib.HTTPSConnection('arshidni.meteor.com')
+    connection.connect()
+    connection.request('POST', '/complaint', json.dumps(data), {
+           "Content-Type": "application/json"
+         })
+    result = json.loads(connection.getresponse().read())
+    print result

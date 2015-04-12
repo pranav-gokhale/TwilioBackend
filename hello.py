@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 import twilio.twiml
 import json,httplib,urllib
+import time
 
 
 app = Flask(__name__)
@@ -50,6 +51,20 @@ THANKS_URL = {
         4 : 'https://www.dropbox.com/s/9g33rvbsffe68x7/ThanksHindi.mp3?dl=1'
 }
 
+LANGUAGEID_TO_LANGUAGE = ['','English', 'Amharic', 'Bengali', 'Hindi', 'Indonesian', 'Malayalam', 'Mandarin', 'Nepali', 'Sinhalese', 'Tagalog', 'Tamil', 'Telugu']
+
+CATEGORYID_TO_CATEGORY = ['Intro', 'Visa', 'Slavery', 'Salary', 'Working Conditions', 'Job Loss', 'Going Home', 'Lawful Rights', 'Domestic Work', 'All' ]
+
+'''https://www.dropbox.com/s/34bycyegs2z7m38/1-Intro-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/pfyhnjrbimbqhx4/2-Visa-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/f8lw65o3mw0r1u3/3-Slavery-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/bm9nobauq1n5pbk/4-Salary-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/hzbkxxb80eukdz2/5-WorkingConditions-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/xa127eu437gq8z3/6-LosingYourJob-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/esotjrd7gbxi3xg/7-GoingHome-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/e8ht5ifgoc8cft3/8-RightsUnderLaw-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/eyskz82mg9eqyb4/9-Domestic-Hindi.mp3?dl=1''',
+'''https://www.dropbox.com/s/bwjdw220vpgbzyi/10-Contact-Hindi.mp3?dl=1'''
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
@@ -126,9 +141,12 @@ def status():
     data_blob['RecordingSid'] = request.values.get('RecordingSid', None)
     data_blob['RecordingDuration'] = request.values.get('RecordingDuration', None)
     data_blob['From'] = request.values.get('From', None)
-    data_blob['Language'] = fetch_language(request.values.get('From', None))
-    data_blob['Category'] = fetch_category(request.values.get('From', None))
+    data_blob['Language'] = LANGUAGEID_TO_LANGUAGE[int(fetch_language(request.values.get('From', None)))]
+    data_blob['Category'] = CATEGORYID_TO_CATEGORY[int(fetch_category(request.values.get('From', None)))]
+    data_blob['TimeStamp'] = int(time.time())
+
     send_analytics(data_blob)
+    send_data(data_blob, 'Call_Status')
     return None
 
 '''Send data to parse'''
