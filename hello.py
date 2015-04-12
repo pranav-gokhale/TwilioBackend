@@ -1,5 +1,7 @@
 from flask import Flask, request, redirect
 import twilio.twiml
+import json,httplib,urllib
+
 
 app = Flask(__name__)
  
@@ -67,7 +69,6 @@ def hello_monkey():
         g.say(INTRO_TEXT) 
     return str(resp)
 
-
 @app.route("/handle-lang", methods=['GET', 'POST'])
 def handle_lang():
     """Handle key press from a user."""
@@ -75,11 +76,13 @@ def handle_lang():
     '''Save data about user'''
     data_blob = {}
     data_blob["from_number"] = request.values.get('From', None)
-    data_blob["digit_pressed"] = digit_pressed
-    send_data(data_blob, 'Call')
+    data_blob["lang_id"] = digit_pressed
+    send_data(data_blob, 'Language')
 
     # Get the digit pressed by the user
     resp = twilio.twiml.Response()
+    if (digit_pressed is None):
+        return redirect("/")
     if int(digit_pressed) <= 12: 
         with resp.gather(numDigits=1, action="/handle-further-info/"+digit_pressed, method="POST") as g:
             g.play(FURTHER_INFO_TEXT_URL[digit_pressed])
@@ -90,9 +93,17 @@ def handle_lang():
 
 @app.route("/handle-further-info/<int:lang_id>", methods=['GET', 'POST'])
 def handle_further_info(lang_id): 
-    print request
     digit_pressed = request.values.get('Digits', None)
+    '''Save data about user'''
+    data_blob = {}
+    data_blob["from_number"] = request.values.get('From', None)
+    data_blob["category_id"] = digit_pressed
+    send_data(data_blob, 'Category')
+
+
     resp = twilio.twiml.Response()
+    if (digit_pressed is None):
+        return redirect("/")    
     if (int(digit_pressed)==0):
         resp.say('Volunteer')
         return str(resp)
@@ -114,7 +125,10 @@ def status():
     data_blob['RecordingUrl'] = request.values.get('RecordingUrl', None)
     data_blob['RecordingSid'] = request.values.get('RecordingSid', None)
     data_blob['RecordingDuration'] = request.values.get('RecordingDuration', None)
-    send_data(data_blob, 'Call_Status')
+    data_blob['From'] = request.values.get('From', None)
+    data_blob['Language'] = fetch_language(request.values.get('From', None))
+    data_blob['Category'] = fetch_category(request.values.get('From', None))
+    send_analytics(data_blob)
     return None
 
 '''Send data to parse'''
@@ -130,8 +144,39 @@ def send_data(data, obj):
     result = json.loads(connection.getresponse().read())
     print result
 
-def send_analytics(blob):
-    pass
+def send_analytics(data):
+    import json,httplib
+    connection = httplib.HTTPSConnection('arshidni.meteor.com')
+    connection.connect()
+    connection.request('POST', '/complaint', json.dumps(data), {
+           "Content-Type": "application/json"
+         })
+    result = json.loads(connection.getresponse().read())
+    print result
+
+def fetch_language(phone_string):
+    connection = httplib.HTTPSConnection('api.parse.com', 443)
+    connection.connect()
+    connection.request('GET', '/1/classes/'+'Language',json.dumps({1:1}) , { ##########
+           "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
+           "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
+    })
+    res = json.loads(connection.getresponse().read())['results']
+    for r in res:
+        if (str(r.get(u'from_number',None)) == unicode(phone_string)):
+            return r.get(u'lang_id',False)
+
+def fetch_category(phone_string):
+    connection = httplib.HTTPSConnection('api.parse.com', 443)
+    connection.connect()
+    connection.request('GET', '/1/classes/'+'Category',json.dumps({1:1}) , { ##########
+           "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
+           "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
+    })
+    res = json.loads(connection.getresponse().read())['results']
+    for r in res:
+        if (str(r.get(u'from_number',None)) == unicode(phone_string)):
+            return r.get(u'category_id',False)
 
 if __name__ == "__main__":
     app.run(debug=True)
