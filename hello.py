@@ -135,6 +135,8 @@ def handle_further_info(lang_id):
 @app.route("/status", methods=['GET', 'POST'])
 def status(): 
     '''Save data about user'''
+    if (request.values.get('From', None) is None):
+        return redirect("/") 
     data_blob = {}
     data_blob['CallDuration'] = request.values.get('CallDuration', None)
     data_blob['RecordingUrl'] = request.values.get('RecordingUrl', None)
@@ -172,22 +174,25 @@ def send_analytics(data):
     result = json.loads(connection.getresponse().read())
     print result
 
+
 def fetch_language(phone_string):
     connection = httplib.HTTPSConnection('api.parse.com', 443)
+    params = urllib.urlencode({"order":"-createdAt"})
     connection.connect()
-    connection.request('GET', '/1/classes/'+'Language',json.dumps({1:1}) , { ##########
+    connection.request('GET', '/1/classes/'+'Language?%s' % params, '' , { 
            "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
            "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
     })
     res = json.loads(connection.getresponse().read())['results']
     for r in res:
         if (str(r.get(u'from_number',None)) == unicode(phone_string)):
-            return r.get(u'lang_id',False)
+            return r.get(u'lang_id',False)            
 
 def fetch_category(phone_string):
     connection = httplib.HTTPSConnection('api.parse.com', 443)
+    params = urllib.urlencode({"order":"-createdAt"})
     connection.connect()
-    connection.request('GET', '/1/classes/'+'Category',json.dumps({1:1}) , { ##########
+    connection.request('GET', '/1/classes/'+'Category?%s' % params, '' , {
            "X-Parse-Application-Id": "2W6rB0trZRZNa0jyrcbvFGoI8yN7PXqs8L6z4DQi",
            "X-Parse-REST-API-Key": "kK8riCXFGptYwPbrc100DSxFBe4aAijY1OctNEF6",
     })
